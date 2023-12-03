@@ -73,6 +73,8 @@ const app = express();
 app.use(cors()); 
 
 
+const CORS_ORIGIN = process.env.CORS_ORIGIN;
+
 app.use(express.static(path.join(__dirname, '../client/dist')));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
@@ -80,7 +82,7 @@ app.get('*', (req, res) => {
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost", 
+    origin: CORS_ORIGIN, 
     methods: ["GET", "POST"]
   }
 });
