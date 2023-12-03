@@ -172,11 +172,11 @@ input[type="text"] {
 }
 
 /* Add responsive styles as needed */
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   .message-input-container {
     flex-direction: column;
   }
-}
+} */
 
 
 </style>
