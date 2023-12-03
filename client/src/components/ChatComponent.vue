@@ -38,7 +38,7 @@ export default {
     };
   },
   mounted() {
-    this.socket = io('http://localhost:3000');
+    this.socket = io(process.env.VUE_APP_SOCKET_URL);
 
     // Join the chat when the component is mounted
     this.socket.emit('joinChat', this.loggedInUserId, this.otherUserId);
