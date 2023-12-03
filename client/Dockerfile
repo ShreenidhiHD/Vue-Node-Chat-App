@@ -1,13 +1,13 @@
-# Build stage
+# Start with a Node base image to build your Vue.js app
 FROM node:latest as build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-COPY ./ .
+COPY . .
 RUN npm run build
 
-# Production stage
-FROM nginx:stable as production-stage
+# Start a new stage with Nginx to serve the app
+FROM nginx:stable
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
