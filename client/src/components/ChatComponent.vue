@@ -67,7 +67,7 @@ export default {
       timestamp: new Date().toLocaleTimeString('en-US', { hour12: false }),
       senderId: this.loggedInUserId,
     };
-    this.socket.emit('message', newMsg); // Send the object directly
+    this.socket.emit('message', newMsg); 
     this.newMessage = '';
   }
   this.scrollToBottom();
