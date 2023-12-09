@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools { 
-            nodejs 'node-18.19.0' // Replace 'node-18.19.0' with the name you've given to the Node.js 18.19.0 installation in the global tool configuration.
+            nodejs 'node-18.19.0' 
         }
     stages {
         stage('Install Dependencies') {
