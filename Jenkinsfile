@@ -1,6 +1,8 @@
 pipeline {
     agent any
-    
+    tools {
+        nodejs 'NodeJS 18'
+    }
     stages {
         stage('Install Dependencies') {
             steps {
