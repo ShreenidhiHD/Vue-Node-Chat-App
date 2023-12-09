@@ -27,7 +27,7 @@ export default {
                 { id: 1, name: 'User 1', status: 'online' },
                 { id: 2, name: 'User 2', status: 'offline' },
                 { id: 3, name: 'User 3', status: 'online' },
-                // Add more users as needed
+             
             ],
             loggedInUserId: JSON.parse(sessionStorage.getItem('user')).id,
         };
