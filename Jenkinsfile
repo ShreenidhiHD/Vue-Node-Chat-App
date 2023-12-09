@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    tools { 
-            nodejs 'node-18.19.0' 
-        }
+   
     stages {
         stage('Install Dependencies') {
             steps {
