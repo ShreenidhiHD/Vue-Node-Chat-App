@@ -2,19 +2,54 @@ pipeline {
     agent any
 
     stages {
-        stage('Install') {
+        stage('Check Branch') {
             steps {
-                sh 'npm install'
+                script {
+                    // Check if the current branch is 'staging'
+                    if (env.BRANCH_NAME != 'staging') {
+                        error("This pipeline is only for the 'staging' branch.")
+                    }
+                }
             }
         }
-        stage('Build') {
+
+        stage('Install Dependencies') {
             steps {
-                sh 'npm run build'
+                // Install dependencies in client folder
+                dir('client') {
+                    sh 'npm install'
+                }
+                // Install dependencies in server folder
+                dir('server') {
+                    sh 'npm install'
+                }
             }
         }
-        stage('Test') {
+
+        stage('Build Client') {
             steps {
-                sh 'npm test'
+                // Build client application
+                dir('client') {
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Run Server') {
+            steps {
+                // Run the server
+                dir('server') {
+                    sh 'npm start' // Assuming 'npm start' runs your server
+                }
+            }
+        }
+
+        stage('Run Server Tests') {
+            steps {
+                // Run tests in the server
+                dir('server') {
+                    sh 'npm test'
+                }
             }
         }
     }
