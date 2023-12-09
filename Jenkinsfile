@@ -51,7 +51,7 @@ pipeline {
             steps {
                 echo 'Starting server...'
                 dir('server') {
-                    sh 'npm start' // Assuming 'npm start' runs your server
+                    sh 'npm start' 
                 }
                 echo 'Server started.'
             }
