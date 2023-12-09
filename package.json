@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "serve-static": "^1.15.0"
+  }
+}
