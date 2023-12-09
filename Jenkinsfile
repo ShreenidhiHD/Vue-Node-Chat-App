@@ -4,30 +4,42 @@ pipeline {
         nodejs 'NodeJS 18'
     }
     stages {
-        stage('Install Dependencies') {
+        stage('Prepare Environment') {
             steps {
-                echo 'Starting to install dependencies...'
-                
-                // Install dependencies in client folder
+                echo 'Cleaning workspace and clearing npm cache...'
+                cleanWs() // Cleans the entire workspace
+                sh 'npm cache clean --force' // Clears npm cache
+            }
+        }
+
+        stage('Install Root Dependencies') {
+            steps {
+                echo 'Installing root level dependencies...'
+                sh 'npm install'
+            }
+        }
+
+        stage('Install Client Dependencies') {
+            steps {
+                echo 'Installing client dependencies...'
                 dir('client') {
-                    echo 'Installing client dependencies...'
                     sh 'npm install'
                 }
-                
-                // Install dependencies in server folder
+            }
+        }
+
+        stage('Install Server Dependencies') {
+            steps {
+                echo 'Installing server dependencies...'
                 dir('server') {
-                    echo 'Installing server dependencies...'
                     sh 'npm install'
                 }
-                
-                echo 'Dependencies installed.'
             }
         }
 
         stage('Build Client') {
             steps {
                 echo 'Starting client build...'
-                // Build client application
                 dir('client') {
                     sh 'npm run build'
                 }
@@ -38,7 +50,6 @@ pipeline {
         stage('Run Server') {
             steps {
                 echo 'Starting server...'
-                // Run the server
                 dir('server') {
                     sh 'npm start' // Assuming 'npm start' runs your server
                 }
@@ -49,7 +60,6 @@ pipeline {
         stage('Run Server Tests') {
             steps {
                 echo 'Running server tests...'
-                // Run tests in the server
                 dir('server') {
                     sh 'npm test'
                 }
