@@ -82,7 +82,8 @@ pipeline {
         stage('Pre-Build Check') {
            steps {
                 echo 'Checking EC2 instance connectivity...'
-                sh "ssh -o BatchMode=yes -o ConnectTimeout=5 ec2-root@${EC2_HOST} 'echo connected' || exit 1"
+                // sh "ssh -o BatchMode=yes -o ConnectTimeout=5 ec2-root@${EC2_HOST} 'echo connected' || exit 1"
+                ssh -o BatchMode=yes -o ConnectTimeout=5 -i ~/.ssh/id_rsa jenkins@localhost 'echo connected' || exit 1
             }
 
         }
