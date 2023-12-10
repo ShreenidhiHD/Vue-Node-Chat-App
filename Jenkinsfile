@@ -140,12 +140,14 @@ pipeline {
     }
     stages {
         stage('Pre-Build Check') {
-           steps {
-                echo 'Checking EC2 instance connectivity...'
-                sh "ssh -o BatchMode=yes -o ConnectTimeout=5 -i ${SSH_CREDENTIALS} ec2-user@${EC2_HOST} 'echo connected' || exit 1"
-            }
-
+    steps {
+        echo 'Checking EC2 instance connectivity...'
+        withCredentials([sshUserPrivateKey(credentialsId: '93e4fec0-85d1-4e1c-a8bf-71762e7c9656', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
+            sh "ssh -o BatchMode=yes -o ConnectTimeout=5 -i ${SSH_PRIVATE_KEY} ec2-user@${EC2_HOST} 'echo connected' || exit 1"
         }
+    }
+}
+
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
