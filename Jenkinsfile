@@ -73,7 +73,7 @@ pipeline {
         DOCKER_IMAGE = 'krishnam1de/chat' // Your Docker Hub repo
         IMAGE_TAG = 'latest' // Or a dynamic tag, like a build number or Git commit hash
         STABLE_TAG = 'stable' // A tag for your stable version
-        EC2_HOST = '13.237.67.94' // Replace with your EC2 instance's ip
+        EC2_HOST = '13.237.67.94' // Replace with your EC2 instance's IP
     }
     tools {
         nodejs 'NodeJS 18'
