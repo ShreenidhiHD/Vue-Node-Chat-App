@@ -14,7 +14,8 @@ RUN cd server && npm install
 COPY client/package*.json ./client/
 
 # Install client dependencies
-RUN cd client && npm install
+RUN for i in {1..5}; do npm install && break || sleep 15; done
+
 
 # Copy the rest of your server application source code to the container
 COPY server/ ./server/
