@@ -82,7 +82,7 @@ pipeline {
         stage('Pre-Build Check') {
            steps {
                 echo 'Checking EC2 instance connectivity...'
-                sh "ssh -o BatchMode=yes -o ConnectTimeout=5 ec2-user@${EC2_HOST} 'echo connected' || exit 1"
+                sh "ssh -o BatchMode=yes -o ConnectTimeout=5 ec2-root@${EC2_HOST} 'echo connected' || exit 1"
             }
 
         }
@@ -107,7 +107,7 @@ pipeline {
             steps {
                 echo 'Deploying application to AWS EC2...'
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: '1f28137a-3783-4610-9314-509073e03a58', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    sh "ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} 'docker pull ${DOCKER_IMAGE}:${IMAGE_TAG} && docker run -d -p 80:80 ${DOCKER_IMAGE}:${IMAGE_TAG}'"
+                    sh "ssh -o StrictHostKeyChecking=no ec2-root@${EC2_HOST} 'docker pull ${DOCKER_IMAGE}:${IMAGE_TAG} && docker run -d -p 80:80 ${DOCKER_IMAGE}:${IMAGE_TAG}'"
                 }
             }
         }
@@ -119,7 +119,7 @@ pipeline {
         failure {
             echo 'Deployment failed. Performing rollback...'
             withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: '1f28137a-3783-4610-9314-509073e03a58', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                sh "ssh -o StrictHostKeyChecking=no ec2-user@${EC2_HOST} 'docker pull ${DOCKER_IMAGE}:${STABLE_TAG} && docker run -d -p 80:80 ${DOCKER_IMAGE}:${STABLE_TAG}'"
+                sh "ssh -o StrictHostKeyChecking=no ec2-root@${EC2_HOST} 'docker pull ${DOCKER_IMAGE}:${STABLE_TAG} && docker run -d -p 80:80 ${DOCKER_IMAGE}:${STABLE_TAG}'"
             }
         }
     }
