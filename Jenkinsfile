@@ -15,9 +15,11 @@ pipeline {
         stage('Install Root Dependencies') {
             steps {
                 echo 'Installing root level dependencies...'
+                sh 'pwd' // Print the current working directory
                 sh 'npm install'
-            }
-        }
+            }   
+        }   
+
 
         stage('Install Client Dependencies') {
             steps {
