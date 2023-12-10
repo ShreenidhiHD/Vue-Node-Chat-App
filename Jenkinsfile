@@ -4,14 +4,6 @@ pipeline {
         nodejs 'NodeJS 18'
     }
     stages {
-        stage('Prepare Environment') {
-            steps {
-                echo 'Cleaning workspace and clearing npm cache...'
-                cleanWs() // Cleans the entire workspace
-                sh 'npm cache clean --force' // Clears npm cache
-            }
-        }
-
         stage('Install Root Dependencies') {
             steps {
                 echo 'Installing root level dependencies...'
