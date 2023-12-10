@@ -79,6 +79,12 @@ pipeline {
         nodejs 'NodeJS 18'
     }
     stages {
+        stage('Pre-Build Check') {
+            steps {
+                echo 'Checking EC2 instance connectivity...'
+                sh "ping -c 4 ${EC2_HOST} || exit 1"
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
