@@ -139,6 +139,15 @@ pipeline {
         nodejs 'NodeJS 18'
     }
     stages {
+           stage('Print SSH Private Key') {
+            steps {
+                withCredentials([file(credentialsId: '93e4fec0-85d1-4e1c-a8bf-71762e7c9656', variable: 'SSH_PRIVATE_KEY')]) {
+                    script {
+                        sh "cat \${SSH_PRIVATE_KEY}"
+                    }
+                }
+            }
+        }
      stage('Pre-Build Check') {
     steps {
         echo 'Checking EC2 instance connectivity...'
