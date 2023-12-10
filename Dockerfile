@@ -8,14 +8,13 @@ WORKDIR /app
 COPY server/package*.json ./server/
 
 # Install server dependencies
-RUN cd server && npm install
+RUN cd server && npm ci
 
 # Copy client package.json and package-lock.json
 COPY client/package*.json ./client/
 
 # Install client dependencies
-RUN for i in {1..5}; do npm install && break || sleep 15; done
-
+RUN cd client && npm ci
 
 # Copy the rest of your server application source code to the container
 COPY server/ ./server/
