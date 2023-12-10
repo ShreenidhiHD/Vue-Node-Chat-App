@@ -139,26 +139,15 @@ pipeline {
         nodejs 'NodeJS 18'
     }
     stages {
-           stage('Print SSH Private Key') {
+    stage('SSH Private Key Authentication') {
             steps {
-                withCredentials([file(credentialsId: '93e4fec0-85d1-4e1c-a8bf-71762e7c9656', variable: 'SSH_PRIVATE_KEY')]) {
-                    script {
-                        sh "cat \${SSH_PRIVATE_KEY}"
+                script {
+                    withCredentials([sshUserPrivateKey(credentialsId: '93e4fec0-85d1-4e1c-a8bf-71762e7c9656', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: 'SSH_USERNAME')]) {
+                        sh "ssh -o StrictHostKeyChecking=no -i \$SSH_KEY_FILE \$SSH_USERNAME@${EC2_HOST} 'echo connected' || exit 1"
                     }
                 }
             }
         }
-     stage('Pre-Build Check') {
-    steps {
-        echo 'Checking EC2 instance connectivity...'
-        withCredentials([file(credentialsId: 'YOUR_CREDENTIALS_ID', variable: 'SSH_PRIVATE_KEY')]) {
-            sh """
-                chmod 600 \${SSH_PRIVATE_KEY}
-                ssh -o BatchMode=yes -o ConnectTimeout=5 -i \${SSH_PRIVATE_KEY} ec2-user@${EC2_HOST} 'echo connected' || exit 1
-            """
-        }
-    }
-}
 
 
         stage('Build Docker Image') {
