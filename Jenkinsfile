@@ -80,10 +80,11 @@ pipeline {
     }
     stages {
         stage('Pre-Build Check') {
-            steps {
+           steps {
                 echo 'Checking EC2 instance connectivity...'
-                sh "ping -c 4 ${EC2_HOST} || exit 1"
+                sh "ssh -o BatchMode=yes -o ConnectTimeout=5 ec2-user@${EC2_HOST} 'echo connected' || exit 1"
             }
+
         }
         stage('Build Docker Image') {
             steps {
