@@ -145,7 +145,7 @@ pipeline {
         withCredentials([file(credentialsId: 'YOUR_CREDENTIALS_ID', variable: 'SSH_PRIVATE_KEY')]) {
             sh """
                 chmod 600 \${SSH_PRIVATE_KEY}
-                ssh -o BatchMode=yes -o ConnectTimeout=5 -i \${SSH_PRIVATE_KEY} ubuntu@${EC2_HOST} 'echo connected' || exit 1
+                ssh -o BatchMode=yes -o ConnectTimeout=5 -i \${SSH_PRIVATE_KEY} ec2-user@${EC2_HOST} 'echo connected' || exit 1
             """
         }
     }
